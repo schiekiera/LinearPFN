@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "linearpfn"
+version = "0.1.0"
+description = "Amortized spike-and-slab regression: Bayesian variable selection for sparse linear models with pairwise interactions."
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Louis Schiekiera", email = "louis.schiekiera@hu-berlin.de"},
+    {name = "Max Zimmer"},
+    {name = "Christophe Roux"},
+    {name = "Manuel Arnold"},
+    {name = "Sebastian Pokutta"},
+    {name = "Fritz Günther"},
+]
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "scipy",
+    "pyyaml",
+    "torch",
+]
+
+[project.optional-dependencies]
+hub = ["huggingface_hub"]
+bench = ["pandas", "scikit-learn", "matplotlib"]
+dev = ["pytest", "ruff"]
+
+[project.urls]
+Repository = "https://github.com/schiekiera/LinearPFN"
+Weights = "https://huggingface.co/schiekiera/LinearPFN"
+
+[tool.setuptools.packages.find]
+include = ["linearpfn*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["linearpfn", "bench", "pipeline", "_bootstrap"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

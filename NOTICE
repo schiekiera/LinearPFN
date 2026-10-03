@@ -1,0 +1,20 @@
+LinearPFN
+Copyright 2026 Louis Schiekiera, Max Zimmer, Christophe Roux, Manuel Arnold,
+Sebastian Pokutta and Fritz Günther (the LinearPFN authors)
+
+This product includes software derived from nanoTabPFN
+(https://github.com/automl/nanoTabPFN), licensed under the Apache License,
+Version 2.0. The transformer backbone in linearpfn/model.py (per-cell
+embeddings with alternating attention between features and datapoints) is a
+fork of nanoTabPFN; see the attribution note in that module's docstring and
+the upstream CITATION.bib for how to cite the original work.
+
+This product includes an optimizer derived from Muon by Keller Jordan
+(https://github.com/KellerJordan/Muon), licensed under the MIT License. The
+Newton-Schulz zeropower iteration and the Muon update rule in
+linearpfn/_optim.py follow that implementation, rewritten for the single-GPU
+case with a batched variant for packed QKV weight matrices; distributed code
+paths were removed.
+
+The full license texts are in LICENSES/ (nanoTabPFN: Apache License 2.0; Muon:
+MIT License).

@@ -1,0 +1,10 @@
+# Versions the reported results were produced with (Python 3.12.7).
+# Core method: numpy, scipy, torch, PyYAML. Benchmark, numbers and figures:
+# pandas, scikit-learn, matplotlib (and R for the R baselines, see README.md).
+PyYAML==6.0.1
+matplotlib==3.10.0
+numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.5.1
+scipy==1.13.1
+torch==2.10.0

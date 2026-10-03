@@ -1,0 +1,123 @@
+# Prior, architecture and training of the reported model (strong heredity).
+seed: 0
+device: auto
+model:
+  embedding_size: 512
+  num_attention_heads: 16
+  mlp_hidden_size: 1024
+  num_layers: 8
+  pair_pooling: y_aware
+  attention_impl: sdpa
+  norm_placement: pre
+  coef_head: mse
+  pair_stats: false
+data:
+  batch_size: 4
+  num_workers: 4
+  n_min: 20
+  n_max: 2000
+  p_min: 2
+  p_max: 30
+  include_interactions: true
+  sparsity_law: mixture
+  k_main_zero: 0.09
+  k_main_mean: 3.5
+  k_int_zero: 0.5
+  k_int_mean: 1.5
+  reject_empty: false
+  pi_main_low: 0.02
+  pi_main_high: 0.6
+  pi_int_low: 0.05
+  pi_int_high: 0.4
+  heredity_weights:
+  - 1.0
+  - 0.0
+  - 0.0
+  a0: 3.0
+  b0: 1.0
+  tau2: 0.5
+  tau2_intercept: 0.25
+  slab_scaling: fixed
+  random_c: true
+  c_logmean: -1.8971199848858813
+  c_logsd: 0.6
+  c_min: 0.01
+  c_max: 1.5
+  random_rho_int: false
+  rho_int_fixed: 0.5
+  rho_logmean: -0.6931471805599453
+  rho_logsd: 0.5
+  rho_min: 0.1
+  rho_max: 1.5
+  f_zero_prob: 0.15
+  f_beta_a: 1.5
+  f_beta_b: 3.0
+  cross_block_w_max: 0.35
+  factor_count_frac_max: 0.3333333333333333
+  h2_mean_low: 0.1
+  h2_mean_high: 0.92
+  h2_concentration_low: 4.0
+  h2_concentration_high: 40.0
+  h2_cap: 0.98
+  cross_loading_share: 0.15
+  neg_loading_prob: 0.3
+  h2_high_prob: 0.15
+  h2_high_mean_low: 0.9
+  h2_high_cap: 0.995
+  marginal_weights:
+    gaussian: 0.6
+    likert: 0.2
+    binary: 0.1
+    count: 0.05
+    skewed: 0.05
+  binary_rate_low: 0.2
+  binary_rate_high: 0.5
+  likert_levels_min: 2
+  likert_levels_max: 7
+  law_count_share: 0.5
+train:
+  steps: 37500
+  lr: 0.001
+  warmup_steps: 4000
+  grad_clip: 2.0
+  lambda_sel: 1.0
+  bf16: auto
+  checkpoint_dir: checkpoints/paper_model
+  checkpoint_every_minutes: 30
+  log_every: 100
+  accum_steps: 16
+  tf32: true
+  compile: false
+  optimizer: muon
+  muon_lr: 0.02
+  muon_momentum: 0.96
+  muon_wd: 0.1
+  snapshot_every_steps: 5000
+  post_eval_gate: false
+  lambda_coef: 1.0
+eval:
+  n_datasets: 60
+  p_max: 5
+  seed: 999
+validate:
+  hard_gates: true
+  datasets_per_cell: 100
+  n_values:
+  - 32
+  - 128
+  - 512
+  - 1024
+  - 2000
+  p_values:
+  - 3
+  - 5
+  - 8
+  - 10
+  - 15
+  - 20
+  - 30
+  n_query: 64
+  seed: 777
+  ridge_lambda: 0.001
+  jitter_sd: 0.1
+  mc3_p_values: []

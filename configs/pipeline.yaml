@@ -1,0 +1,99 @@
+# Settings of the number, table and figure stages (scripts/), read by
+# pipeline/paths.py. Every path is relative to the repository root.
+
+paths:
+  final_config: configs/paper_model.yaml          # prior, architecture, training of the reported model
+  real_data_x: data/real_designs                  # the real predictor matrices (data_prep/real_designs)
+  results_main_strong: results/main_benchmark     # main benchmark: truth rows + one directory per method
+  results_knob_main: results/misspecification     # its three variants with outcomes outside the prior
+  results_real_y: results/real_outcomes           # real-outcome comparison (stage 18)
+  fit_time_gpu_rows: results/main_benchmark/fit_time_gpu.json   # stage 72, inside the panel it timed
+  checkpoints_final: checkpoints/paper_model
+  report_final: reports/validation                # linearpfn.validate on the reported model
+  report_final_exact_panel: reports/validation_exact_panel   # exact-posterior cells, coefficient head scored
+  report_arms:                                    # ablations validated on the same grid
+    - reports/validation_no_nll                   # trained without the predictive loss
+  preflight: reports/preflight                    # linearpfn.preflight on the reported prior
+  quadrature: reports/quadrature                  # stage 38
+  numbers: reports/paper                          # every number stage writes its JSON here
+  macros_tex: paper/results_macros.tex
+  macros_json: paper/results_macros.json
+  tables: paper/tables
+  figures: paper/figures
+  train_sbatch: logs/train_launcher.sh            # training launcher and its stdout: the model card
+  train_slurm_out: logs/train_stdout.txt          # reads GPU model, count and peak memory from them
+
+cluster: {}
+
+benchmark:
+  model_row: linearpfn_real_x_benchmark   # the model's row in the real-X placement benchmark (not included)
+  reference_row: susie
+  panels_main: [1a, 1b, 1c, 2a, 2b, 2c]
+  panels_grid: [1g, 2g]
+  panels_meta: [1m, 2m]
+  p_bins: ["3-5", "6-10", "11-20", "21-30"]
+  n_bins: ["30-199", "200-499", "500-999", "1000-1999"]
+
+ip:
+  # the main benchmark: outcomes drawn from the prior on the real predictor matrices
+  # (panel mx); cells = realized (k_main / p, R2) in 0.1-wide bins labelled by their
+  # lower edge (frac_target / r2_target in the row meta)
+  model_row: linearpfn_strong
+  results_key: results_main_strong
+  min_coverage: 0.95              # a method is scored once it fitted >= this share of the model row's datasets
+  common_support: true            # then every method is scored on the datasets all scored methods fitted
+  panels: {real_x: mx}
+  baselines: [susie, glinternet, hierNet, lasso, stability_refit]
+  main_order: [linearpfn_strong, hierNet, glinternet, susie, lasso, stability_refit]
+  extra_rows: [linearpfn_strong_nonll]   # the ablation trained without the predictive loss
+  # derived row: the model's dense coefficients zeroed outside its median probability
+  # model (pipeline.ip.hard_zeroed), no refit
+  hard_zeroed_row: linearpfn_strong_hz
+  reference_rows: [exact, mc3]    # exact: p <= 5 only; mc3: a random subset
+  fig_panel: real_x
+
+knobs:
+  # the main benchmark's datasets with ONE stage of the outcome model replaced
+  # (bench/knobs.py): coef (fixed-magnitude coefficients), int (interaction-heavy,
+  # rho 1), noise (Student-t(3)); each main row is its own paired control
+  control: none
+  knobs: [coef, int, noise]
+  panels: {none: mx, coef: xc, int: xi, noise: xn}
+  results_key: results_knob_main
+  control_results_key: results_main_strong
+  n_datasets: 10000
+  seed: 20260923
+  # ECE only for methods whose probabilities are posterior inclusion probabilities
+  ece_methods: [linearpfn_strong, susie, exact]
+  min_coverage: 0.95
+  common_support: true
+
+real_y:
+  # published tables with their actual outcome; the model against the MCMC sampler
+  # under the prior. `stress` marks the collinearity stress tests.
+  model_row: linearpfn_strong
+  datasets:
+    - {name: attitude, outcome: overall rating, source: "R datasets"}
+    - {name: swiss, outcome: fertility, source: "R datasets"}
+    - {name: prostate, outcome: log PSA, source: "ESL"}
+    - {name: tal_or, outcome: reaction, source: "psych"}
+    - {name: bodyfat, outcome: percent body fat, source: "JSE", stress: true}
+    - {name: ozone, outcome: daily max ozone, source: "ESL", stress: true}
+    - {name: diabetes, outcome: disease progression, source: "LARS", stress: true}
+
+mcmc:
+  rhat_max: 1.1                   # convergence criteria of the MCMC sampler
+  ess_min: 200
+
+style:
+  leading_zero: true              # "0.949" (false: ".949")
+  thousands: ","
+  # digits per quantity: auc covers the bounded selection scores (AUC, F1, precision, recall)
+  digits: {auc: 2, f1: 2, rmse: 3, corr: 3, ece: 3, nll: 3, pct: 1, seconds: 2}
+  p_thresholds: [0.001, 0.01]
+
+figures:
+  dpi: 200
+  family: serif
+  font: Times New Roman
+  mathtext: stix

@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.venv/
+.DS_Store
+
+# local working directories (weights, data, results, generated paper files)
+checkpoints/
+data/
+results/
+reports/
+paper/
+build/
+dist/
+
+# the build marker of the generating tool
+.release_build

@@ -1,0 +1,49 @@
+seed: 0
+device: cpu
+model:
+  embedding_size: 64
+  num_attention_heads: 4
+  mlp_hidden_size: 128
+  num_layers: 2
+  pair_pooling: y_aware
+data:
+  batch_size: 8
+  num_workers: 0
+  n_max: 128
+  p_max: 6
+train:
+  steps: 4000
+  lr: 0.0005
+  warmup_steps: 200
+  grad_clip: 1.0
+  lambda_sel: 1.0
+  bf16: false
+  checkpoint_dir: checkpoints/smoke
+  checkpoint_every_minutes: 30
+  log_every: 250
+eval:
+  # small: each exact reference fit marginalizes a (c, rho) quadrature grid;
+  # keeps the smoke train within a few minutes on a CPU
+  n_datasets: 60
+  p_max: 4
+  seed: 999
+validate:
+  hard_gates: false
+  datasets_per_cell: 30
+  n_values:
+  - 32
+  - 128
+  - 512
+  - 1024
+  p_values:
+  - 3
+  - 5
+  - 10
+  - 20
+  - 30
+  n_query: 64
+  seed: 777
+  ridge_lambda: 0.001
+  jitter_sd: 0.1
+  mc3_p_values: []
+  mc3_steps: 4000

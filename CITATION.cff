@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper below."
+title: "LinearPFN"
+abstract: "Amortized spike-and-slab variable selection for linear models with main effects and pairwise interactions."
+type: software
+license: Apache-2.0
+repository-code: "https://github.com/schiekiera/LinearPFN"
+authors: &authors
+  - family-names: Schiekiera
+    given-names: Louis
+    email: louis.schiekiera@hu-berlin.de
+    affiliation: "Humboldt-Universität zu Berlin; Freie Universität Berlin; Zuse Institute Berlin"
+  - family-names: Zimmer
+    given-names: Max
+    affiliation: "Zuse Institute Berlin; Technische Universität Berlin"
+  - family-names: Roux
+    given-names: Christophe
+    affiliation: "Zuse Institute Berlin; Technische Universität Berlin"
+  - family-names: Arnold
+    given-names: Manuel
+    affiliation: "Humboldt-Universität zu Berlin"
+  - family-names: Pokutta
+    given-names: Sebastian
+    affiliation: "Zuse Institute Berlin; Technische Universität Berlin"
+  - family-names: Günther
+    given-names: Fritz
+    affiliation: "Humboldt-Universität zu Berlin"
+preferred-citation:
+  type: article
+  title: "LinearPFN: Amortized Variable Selection for Linear Models with Interactions"
+  authors: *authors
+  journal: "arXiv preprint"
+  year: 2026
