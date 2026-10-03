@@ -19,7 +19,7 @@ from pathlib import Path
 
 REPO_ID = "schiekiera/LinearPFN"
 FILENAME = "linearpfn_strong.pt"
-REVISION = "main"
+REVISION = "1aa3ccfa9ad4d7a1f553eda01738bf95f93f2eda"  # the Hub commit of the weights
 SHA256: str | None = "4ed4e0bd81035c27cdd0902db9f6068612342a3de4a0692c3a5cdb7167bff5a9"
 _CHUNK = 1 << 20
 
